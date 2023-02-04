@@ -56,6 +56,11 @@ public class HawkFlowApi {
         Start(process, meta, uid, "");
     }
 
+    public static void Start(String process, String meta)
+    {
+        Start(process, meta, "", "");
+    }
+
     public static void End(String process, String meta, String uid, String apiKey) {
         try {
             String url = hawkFlowApiUrl + "/timed/end";
@@ -68,6 +73,11 @@ public class HawkFlowApi {
 
     public static void End(String process, String meta, String uid) {
         End(process, meta, uid, "");
+    }
+
+    public static void End(String process, String meta)
+    {
+        End(process, meta, "", "");
     }
 
     private static async Task<String> hawkFlowPost(String url, JObject data, String apiKey) {
