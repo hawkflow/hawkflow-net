@@ -5,7 +5,7 @@ agg/
 hawkflowdb.tar
 
 .pgpass
-
+.vs
 .Rproj.user
 .Rhistory
 .RData
