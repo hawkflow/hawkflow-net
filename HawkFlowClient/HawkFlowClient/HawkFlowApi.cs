@@ -41,7 +41,7 @@ namespace HawkFlowClient
             {
                 String url = hawkFlowApiUrl + "/metrics";
                 JObject data = Endpoints.metricData(process, meta, items);
-                Task<String> task = hawkFlowPost(url, data);
+                Task<String> task = this.hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -55,7 +55,7 @@ namespace HawkFlowClient
             {
                 String url = hawkFlowApiUrl + "/exception";
                 JObject data = Endpoints.exceptionData(process, meta, exceptionText);
-                Task<String> task = hawkFlowPost(url, data);
+                Task<String> task = this.hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -69,12 +69,22 @@ namespace HawkFlowClient
             {
                 String url = hawkFlowApiUrl + "/timed/start";
                 JObject data = Endpoints.exceptionData(process, meta, uid);
-                Task<String> task = hawkFlowPost(url, data);
+                Task<String> task = this.hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
                 Console.Write(ex.Message);
             }
+        }
+
+        public void Start(String process, String meta)
+        {
+            this.Start(process, meta, "");
+        }
+
+        public void Start(String process)
+        {
+            this.Start(process, "", "");
         }
 
         public void End(String process, String meta, String uid)
@@ -83,12 +93,22 @@ namespace HawkFlowClient
             {
                 String url = hawkFlowApiUrl + "/timed/end";
                 JObject data = Endpoints.exceptionData(process, meta, uid);
-                Task<String> task = hawkFlowPost(url, data);
+                Task<String> task = this.hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
                 Console.Write(ex.Message);
             }
+        }
+
+        public void End(String process, String meta)
+        {
+            this.End(process, meta, "");
+        }
+
+        public void End(String process)
+        {
+            this.Start(process, "", "");
         }
 
         private async Task<String> hawkFlowPost(String url, JObject data)
