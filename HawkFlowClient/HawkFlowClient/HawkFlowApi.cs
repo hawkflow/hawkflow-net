@@ -12,10 +12,25 @@ namespace HawkFlowClient
     public class HawkFlowApi
     {
         private static String hawkFlowApiUrl = "https://api.hawkflow.ai/v1";
-        private static int MAX_RETRIES = 3;
-        private static int WAIT_TIME_SECONDS = 1000;
+        public String apiKey = "";
+        public int maxRetries = 3;
+        public int waitTime = 100;
 
-        public static void Metrics(String process, String meta, List<Dictionary<string, float>> items, String apiKey)
+        public HawkFlowApi(String apiKey, int maxRetries, int waitTime) {
+            this.apiKey = apiKey;
+            this.maxRetries = maxRetries;
+            this.waitTime = waitTime;
+        }
+
+        public HawkFlowApi(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public HawkFlowApi() {
+            this.apiKey = "";
+        }
+
+        public void Metrics(String process, String meta, List<Dictionary<string, float>> items)
         {
             if (items == null)
             {
@@ -26,7 +41,7 @@ namespace HawkFlowClient
             {
                 String url = hawkFlowApiUrl + "/metrics";
                 JObject data = Endpoints.metricData(process, meta, items);
-                Task<String> task = hawkFlowPost(url, data, apiKey);
+                Task<String> task = hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -34,18 +49,13 @@ namespace HawkFlowClient
             }
         }
 
-        public static void Metrics(String process, String meta, List<Dictionary<string, float>> items)
-        {
-            Metrics(process, meta, items, "");
-        }
-
-        public static void Exception(String process, String meta, String exceptionText, String apiKey)
+        public void Exception(String process, String meta, String exceptionText)
         {
             try
             {
                 String url = hawkFlowApiUrl + "/exception";
                 JObject data = Endpoints.exceptionData(process, meta, exceptionText);
-                Task<String> task = hawkFlowPost(url, data, apiKey);
+                Task<String> task = hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -53,18 +63,13 @@ namespace HawkFlowClient
             }
         }
 
-        public static void Exception(String process, String meta, String exceptionText)
-        {
-            Exception(process, meta, exceptionText, "");
-        }
-
-        public static void Start(String process, String meta, String uid, String apiKey)
+        public void Start(String process, String meta, String uid)
         {
             try
             {
                 String url = hawkFlowApiUrl + "/timed/start";
                 JObject data = Endpoints.exceptionData(process, meta, uid);
-                Task<String> task = hawkFlowPost(url, data, apiKey);
+                Task<String> task = hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -72,23 +77,13 @@ namespace HawkFlowClient
             }
         }
 
-        public static void Start(String process, String meta, String uid)
-        {
-            Start(process, meta, uid, "");
-        }
-
-        public static void Start(String process, String meta)
-        {
-            Start(process, meta, "", "");
-        }
-
-        public static void End(String process, String meta, String uid, String apiKey)
+        public void End(String process, String meta, String uid)
         {
             try
             {
                 String url = hawkFlowApiUrl + "/timed/end";
                 JObject data = Endpoints.exceptionData(process, meta, uid);
-                Task<String> task = hawkFlowPost(url, data, apiKey);
+                Task<String> task = hawkFlowPost(url, data);
             }
             catch (HawkFlowDataTypesException ex)
             {
@@ -96,21 +91,11 @@ namespace HawkFlowClient
             }
         }
 
-        public static void End(String process, String meta, String uid)
-        {
-            End(process, meta, uid, "");
-        }
-
-        public static void End(String process, String meta)
-        {
-            End(process, meta, "", "");
-        }
-
-        private static async Task<String> hawkFlowPost(String url, JObject data, String apiKey)
+        private async Task<String> hawkFlowPost(String url, JObject data)
         {
             try
             {
-                Validation.validateApiKey(apiKey);
+                Validation.validateApiKey(this.apiKey);
             }
             catch (Exception ex)
             {
@@ -124,7 +109,7 @@ namespace HawkFlowClient
             {
                 string jsonData = data.ToString(Formatting.Indented);
 
-                while (!success && retries < MAX_RETRIES)
+                while (!success && retries < this.maxRetries)
                 {
                     try
                     {
@@ -143,7 +128,7 @@ namespace HawkFlowClient
                     {
                         retries++;
                         Console.WriteLine($"Error: {ex.Message}. Retrying...");
-                        System.Threading.Thread.Sleep(WAIT_TIME_SECONDS);
+                        System.Threading.Thread.Sleep(this.waitTime);
                     }
                 }
             }

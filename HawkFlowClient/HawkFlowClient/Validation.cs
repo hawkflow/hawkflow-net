@@ -21,16 +21,15 @@ namespace HawkFlowClient
                 apiKey = Environment.GetEnvironmentVariable("HAWKFLOW_API_KEY");
             }
 
-
-            if (!pattern.IsMatch(apiKey))
-            {
-                throw new HawkFlowApiKeyFormatException();
-            }
-
             if (apiKey.Length > 50)
             {
                 throw new HawkFlowApiKeyFormatException();
             }
+
+            if (!pattern.IsMatch(apiKey))
+            {
+                throw new HawkFlowApiKeyFormatException();
+            }            
         }
 
         public static void validateTimedData(String process, String meta, String uid)
