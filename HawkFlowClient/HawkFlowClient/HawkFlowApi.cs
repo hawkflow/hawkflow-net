@@ -116,7 +116,7 @@ namespace HawkFlowClient
                         using (var client = new HttpClient())
                         {
                             client.DefaultRequestHeaders.Add("Content-type", "application/json");
-                            client.DefaultRequestHeaders.Add("hawkflow-api-key", apiKey);
+                            client.DefaultRequestHeaders.Add("hawkflow-api-key", this.apiKey);
 
                             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync(url, content);
