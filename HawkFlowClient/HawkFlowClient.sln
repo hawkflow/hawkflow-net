@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1704.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkFlowAPI", "HawkFlowAPI\HawkFlowAPI.csproj", "{4AD87F50-9BBC-4AEF-BCF8-4EAE0820BE2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkFlowClient", "HawkFlowClient\HawkFlowClient.csproj", "{ECF99572-A172-4F8F-BCE4-5A0502691C04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AD87F50-9BBC-4AEF-BCF8-4EAE0820BE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AD87F50-9BBC-4AEF-BCF8-4EAE0820BE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AD87F50-9BBC-4AEF-BCF8-4EAE0820BE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AD87F50-9BBC-4AEF-BCF8-4EAE0820BE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF99572-A172-4F8F-BCE4-5A0502691C04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF99572-A172-4F8F-BCE4-5A0502691C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF99572-A172-4F8F-BCE4-5A0502691C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF99572-A172-4F8F-BCE4-5A0502691C04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1E54EAAF-52B3-417C-B43A-798019C735BD}
+		SolutionGuid = {D75F8504-8952-40CD-B83D-5106EAD9EAF2}
 	EndGlobalSection
 EndGlobal
