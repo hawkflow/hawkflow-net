@@ -8,7 +8,7 @@ namespace HawkFlowClient
     {
         private static readonly Regex pattern = new Regex("^[a-zA-Z0-9_-]*$");
 
-        public static void validateApiKey(String apiKey)
+        public static String validateApiKey(String apiKey)
         {
             if (apiKey == null)
                 apiKey = "";
@@ -29,7 +29,9 @@ namespace HawkFlowClient
             if (!pattern.IsMatch(apiKey))
             {
                 throw new HawkFlowApiKeyFormatException();
-            }            
+            }
+
+            return apiKey;
         }
 
         public static void validateTimedData(String process, String meta, String uid)
