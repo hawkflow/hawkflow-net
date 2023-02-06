@@ -115,49 +115,50 @@ namespace HawkFlowClient
         {
             try
             {
-                Validation.validateApiKey(this.apiKey);
+                this.apiKey = Validation.validateApiKey(this.apiKey);
+
+                try
+                {
+                    int retries = 0;
+                    bool success = false;
+                    string jsonData = data.ToString(Formatting.Indented);
+
+                    while (!success && retries < this.maxRetries)
+                    {
+                        try
+                        {
+                            using (var client = new HttpClient())
+                            {
+                                client.DefaultRequestHeaders.Add("Content-type", "application/json");
+                                client.DefaultRequestHeaders.Add("hawkflow-api-key", this.apiKey);
+
+                                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                                var response = await client.PostAsync(url, content);
+                                success = response.IsSuccessStatusCode;
+                                return await response.Content.ReadAsStringAsync();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            retries++;
+                            Console.WriteLine($"Error: {ex.Message}. Retrying...");
+                            System.Threading.Thread.Sleep(this.waitTime);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"HawkFlowAPI Json serialisation error: {ex.Message}.");
+                }
+
+                return "";
             }
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
             }
 
-            int retries = 0;
-            bool success = false;
-
-            try
-            {
-                string jsonData = data.ToString(Formatting.Indented);
-
-                while (!success && retries < this.maxRetries)
-                {
-                    try
-                    {
-                        using (var client = new HttpClient())
-                        {
-                            client.DefaultRequestHeaders.Add("Content-type", "application/json");
-                            client.DefaultRequestHeaders.Add("hawkflow-api-key", this.apiKey);
-
-                            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                            var response = await client.PostAsync(url, content);
-                            success = response.IsSuccessStatusCode;
-                            return await response.Content.ReadAsStringAsync();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        retries++;
-                        Console.WriteLine($"Error: {ex.Message}. Retrying...");
-                        System.Threading.Thread.Sleep(this.waitTime);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"HawkFlowAPI Json serialisation error: {ex.Message}.");
-            }
-
             return "";
-        }
+        }        
     }
 }
